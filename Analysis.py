@@ -39,8 +39,8 @@ text.close()
         
 s1 = set(list4)
 s3 = s1 - so
-out = open('D:\Git\sliderAnalysis\oldoutput.txt','w')
-for i in s1:
+out = open('D:\Git\sliderAnalysis\output1.txt','w')
+for i in s3:
     out.write(i)
     out.write("  ")
 

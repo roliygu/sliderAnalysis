@@ -4,3 +4,4 @@ sliderAnalysis
 input文件是新的字幕文件；
 oldoutput是已认识的单词库；
 output是input - oldouput的的生词库；
+input是第二个字幕文件，oldoutput是1和2的认识单词库，output是1和2的生词库。
