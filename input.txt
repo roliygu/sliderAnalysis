@@ -1,725 +1,444 @@
 
 1
-00:00:00,000 --> 00:00:04,620
-In this video I am going to define what is
-probably the most common type of machine
+00:00:00,320 --> 00:00:01,410
+In this video, I want to
 
 2
-00:00:04,620 --> 00:00:08,910
-learning problem, which is supervised
-learning. I'll define supervised learning
+00:00:01,490 --> 00:00:02,710
+tell you about how to use neural
 
 3
-00:00:08,910 --> 00:00:13,255
-more formally later, but it's probably
-best to explain or start with an example
+00:00:02,900 --> 00:00:04,390
+networks to do multiclass
 
 4
-00:00:13,255 --> 00:00:17,820
-of what it is and we'll do the formal
-definition later. Let's say you want to
+00:00:04,830 --> 00:00:06,690
+classification where we may
 
 5
-00:00:17,820 --> 00:00:23,072
-predict housing prices. A while back, a
-student collected data sets from the
+00:00:06,820 --> 00:00:07,840
+have more than one category
 
 6
-00:00:23,072 --> 00:00:28,745
-Institute of Portland Oregon. And let's
-say you plot a data set and it looks like
+00:00:07,930 --> 00:00:09,600
+that we're trying to distinguish amongst.
 
 7
-00:00:28,745 --> 00:00:34,347
-this. Here on the horizontal axis, the
-size of different houses in square feet,
+00:00:10,470 --> 00:00:12,280
+In the last part of
 
 8
-00:00:34,347 --> 00:00:39,879
-and on the vertical axis, the price of
-different houses in thousands of dollars.
+00:00:12,600 --> 00:00:13,920
+the last video, where we
 
 9
-00:00:39,879 --> 00:00:45,168
-So. Given this data, let's say you have a
-friend who owns a house that is, say 750
+00:00:14,400 --> 00:00:15,320
+had the handwritten digit recognition
 
 10
-00:00:45,168 --> 00:00:50,708
-square feet and hoping to sell the house
-and they want to know how much they can
+00:00:15,830 --> 00:00:17,030
+problem, that was actually
 
 11
-00:00:50,708 --> 00:00:56,116
-get for the house. So how can the learning
-algorithm help you? One thing a learning
+00:00:17,700 --> 00:00:19,000
+a multiclass classification problem because
 
 12
-00:00:56,116 --> 00:01:01,524
-algorithm might be able to do is put a
-straight line through the data or to fit a
+00:00:19,440 --> 00:00:20,730
+there were ten possible categories
 
 13
-00:01:01,524 --> 00:01:07,111
-straight line to the data and, based on
-that, it looks like maybe the house can be
+00:00:21,550 --> 00:00:22,820
+for recognizing the digits from
 
 14
-00:01:07,111 --> 00:01:13,239
-sold for maybe about $150,000. But maybe this
-isn't the only learning algorithm you can
+00:00:23,040 --> 00:00:23,980
+0 through 9 and so, if
 
 15
-00:01:13,239 --> 00:01:18,536
-use. There might be a better one. For
-example, instead of sending a straight
+00:00:24,060 --> 00:00:25,430
+you want us to fill you
 
 16
-00:01:18,536 --> 00:01:23,620
-line to the data, we might decide that
-it's better to fit a quadratic
+00:00:25,830 --> 00:00:27,840
+in on the details of how to do that.
 
 17
-00:01:23,620 --> 00:01:29,110
-function or a second-order polynomial to
-this data. And if you do that, and make a
+00:00:30,410 --> 00:00:31,870
+The way we do multiclass classification
 
 18
-00:01:29,110 --> 00:01:34,667
-prediction here, then it looks like, well,
-maybe we can sell the house for closer to
+00:00:32,990 --> 00:00:34,380
+in a neural network is essentially
 
 19
-00:01:34,667 --> 00:01:39,184
-$200,000. One of the things we'll talk
-about later is how to choose and how to
+00:00:35,060 --> 00:00:37,600
+an extension of the one versus all method.
 
 20
-00:01:39,184 --> 00:01:43,792
-decide do you want to fit a straight line
-to the data or do you want to fit the
+00:00:38,610 --> 00:00:39,650
+So, let's say that we
 
 21
-00:01:43,792 --> 00:01:48,631
-quadratic function to the data and there's
-no fair picking whichever one gives your
+00:00:39,790 --> 00:00:41,660
+have a computer vision example,
 
 22
-00:01:48,631 --> 00:01:53,182
-friend the better house to sell. But each
-of these would be a fine example of a
+00:00:42,630 --> 00:00:43,810
+where instead of just trying
 
 23
-00:01:53,182 --> 00:01:57,834
-learning algorithm. So this is an example
-of a supervised learning algorithm. And
+00:00:44,010 --> 00:00:46,170
+to recognize cars as in
 
 24
-00:01:57,834 --> 00:02:03,736
-the term supervised learning refers to the
-fact that we gave the algorithm a data set
+00:00:46,310 --> 00:00:47,290
+the original example that I started off
 
 25
-00:02:03,736 --> 00:02:09,089
-in which the "right answers" were
-given. That is, we gave it a data set of
+00:00:47,470 --> 00:00:48,670
+with, but let's say that
 
 26
-00:02:09,089 --> 00:02:14,580
-houses in which for every example in this
-data set, we told it what is the right
+00:00:49,060 --> 00:00:51,380
+we're trying to recognize, you know, four
 
 27
-00:02:14,580 --> 00:02:20,002
-price so what is the actual price that,
-that house sold for and the toss of the
+00:00:51,510 --> 00:00:52,820
+categories of objects and given
 
 28
-00:02:20,002 --> 00:02:25,423
-algorithm was to just produce more of
-these right answers such as for this new
+00:00:53,030 --> 00:00:53,900
+an image we want to
 
 29
-00:02:25,423 --> 00:02:30,579
-house, you know, that your friend may be
-trying to sell. To define with a bit more
+00:00:54,100 --> 00:00:56,360
+decide if it is a pedestrian, a car, a motorcycle or a truck.
 
 30
-00:02:30,579 --> 00:02:35,257
-terminology this is also called a
-regression problem and by regression
+00:00:57,200 --> 00:00:58,750
+If that's the case, what
 
 31
-00:02:35,257 --> 00:02:40,467
-problem I mean we're trying to predict a
-continuous value output. Namely the price.
+00:00:58,920 --> 00:01:00,480
+we would do is we would
 
 32
-00:02:40,467 --> 00:02:44,720
-So technically I guess prices can be
-rounded off to the nearest cent. So maybe
+00:01:00,970 --> 00:01:02,820
+build a neural network with four
 
 33
-00:02:44,720 --> 00:02:49,246
-prices are actually discrete values, but
-usually we think of the price of a house
+00:01:03,160 --> 00:01:04,500
+output units so that
 
 34
-00:02:49,246 --> 00:02:53,608
-as a real number, as a scalar value, as
-a continuous value number and the term
+00:01:04,710 --> 00:01:08,110
+our neural network now outputs a vector of four numbers.
 
 35
-00:02:53,608 --> 00:02:58,080
-regression refers to the fact that we're
-trying to predict the sort of continuous
+00:01:09,110 --> 00:01:10,450
+So, the output now is actually
 
 36
-00:02:58,080 --> 00:03:02,060
-values attribute. Here's another
-supervised learning example, some friends
+00:01:11,170 --> 00:01:11,840
+needing to be a vector of four
 
 37
-00:03:02,060 --> 00:03:06,427
-and I were actually working on this
-earlier. Let's see you want to look at
+00:01:12,070 --> 00:01:13,300
+numbers and what we're
 
 38
-00:03:06,427 --> 00:03:11,675
-medical records and try to predict of a
-breast cancer as malignant or benign. If
+00:01:13,540 --> 00:01:14,400
+going to try to do is
 
 39
-00:03:11,675 --> 00:03:16,856
-someone discovers a breast tumor, a lump
-in their breast, a malignant tumor is a
+00:01:14,780 --> 00:01:16,680
+get the first output unit
 
 40
-00:03:16,856 --> 00:03:22,300
-tumor that is harmful and dangerous and a
-benign tumor is a tumor that is harmless.
+00:01:17,180 --> 00:01:18,840
+to classify: is the
 
 41
-00:03:22,300 --> 00:03:27,876
-So obviously people care a lot about this.
-Let's see a collected data set and suppose
+00:01:19,160 --> 00:01:20,650
+image a pedestrian, yes or no.
 
 42
-00:03:27,876 --> 00:03:33,164
-in your data set you have on your
-horizontal axis the size of the tumor and
+00:01:21,200 --> 00:01:24,530
+The second unit to classify: is the image a car, yes or no.
 
 43
-00:03:33,164 --> 00:03:39,317
-on the vertical axis I'm going to plot one
-or zero, yes or no, whether or not these are
+00:01:25,110 --> 00:01:26,880
+This unit to classify: is the
 
 44
-00:03:39,317 --> 00:03:45,184
-examples of tumors we've seen before are
-malignant¨Cwhich is one¨Cor zero if not malignant
+00:01:27,130 --> 00:01:29,150
+image a motorcycle, yes or
 
 45
-00:03:45,184 --> 00:03:50,392
-or benign. So let's say our data set looks
-like this where we saw a tumor of this
+00:01:29,230 --> 00:01:30,460
+no, and this would classify:
 
 46
-00:03:50,392 --> 00:03:56,283
-size that turned out to be benign. One of
-this size, one of this size. And so on.
+00:01:30,930 --> 00:01:32,930
+is the image a truck, yes or no.
 
 47
-00:03:56,283 --> 00:04:02,227
-And sadly we also saw a few malignant
-tumors, one of that size, one of that
+00:01:33,720 --> 00:01:35,730
+And thus, when the image
 
 48
-00:04:02,227 --> 00:04:08,572
-size, one of that size... So on. So this
-example... I have five examples of benign
+00:01:36,390 --> 00:01:37,630
+is of a pedestrian, we
 
 49
-00:04:08,572 --> 00:04:15,159
-tumors shown down here, and five examples
-of malignant tumors shown with a vertical
+00:01:37,820 --> 00:01:38,930
+would ideally want the network
 
 50
-00:04:15,159 --> 00:04:21,504
-axis value of one. And let's say we have
-a friend who tragically has a breast
+00:01:39,410 --> 00:01:40,140
+to output 1, 0, 0, 0,
 
 51
-00:04:21,504 --> 00:04:28,097
-tumor, and let's say her breast tumor size
-is maybe somewhere around this value. The
+00:01:40,250 --> 00:01:41,260
+when it is a
 
 52
-00:04:28,097 --> 00:04:32,930
-machine learning question is, can you
-estimate what is the probability, what is
+00:01:41,520 --> 00:01:42,310
+car we want it to output
 
 53
-00:04:32,930 --> 00:04:37,819
-the chance that a tumor is malignant
-versus benign? To introduce a bit more
+00:01:42,750 --> 00:01:43,530
+0, 1, 0, 0, when this
 
 54
-00:04:37,819 --> 00:04:42,719
-terminology this is an example of a
-classification problem. The term
+00:01:43,840 --> 00:01:45,960
+is a motorcycle, we get it to or rather, we want
 
 55
-00:04:42,719 --> 00:04:47,342
-classification refers to the fact that
-here we're trying to predict a discrete
+00:01:46,390 --> 00:01:47,460
+it to output 0, 0,
 
 56
-00:04:47,342 --> 00:04:52,321
-value output: zero or one, malignant or
-benign. And it turns out that in
+00:01:47,580 --> 00:01:48,970
+1, 0 and so on.
 
 57
-00:04:52,321 --> 00:04:58,331
-classification problems sometimes you can
-have more than two values for the two
+00:01:50,750 --> 00:01:51,880
+So this is just like
 
 58
-00:04:58,331 --> 00:05:03,852
-possible values for the output. As a
-concrete example maybe there are three
+00:01:52,270 --> 00:01:53,690
+the "one versus all" method
 
 59
-00:05:03,852 --> 00:05:09,947
-types of breast cancers and so you may try
-to predict the discrete value of zero,
+00:01:54,190 --> 00:01:55,520
+that we talked about when we
 
 60
-00:05:09,947 --> 00:05:15,138
-one, two, or three with zero being benign.
-Benign tumor, so no cancer. And one may
+00:01:55,680 --> 00:01:58,120
+were describing logistic regression, and
 
 61
-00:05:15,138 --> 00:05:19,836
-mean, type one cancer, like, you have
-three types of cancer, whatever type one
+00:01:58,320 --> 00:02:00,480
+here we have essentially four logistic
 
 62
-00:05:19,836 --> 00:05:24,654
-means. And two may mean a second type of
-cancer, a three may mean a third type of
+00:02:01,290 --> 00:02:03,100
+regression classifiers, each of
 
 63
-00:05:24,654 --> 00:05:29,111
-cancer. But this would also be a
-classification problem, because this other
+00:02:03,260 --> 00:02:04,800
+which is trying to recognize one
 
 64
-00:05:29,111 --> 00:05:33,929
-discrete value set of output corresponding
-to, you know, no cancer, or cancer type
+00:02:05,000 --> 00:02:06,780
+of the four classes that
 
 65
-00:05:33,929 --> 00:05:39,094
-one, or cancer type two, or cancer type
-three. In classification problems there is
+00:02:06,940 --> 00:02:08,830
+we want to distinguish amongst.
 
 66
-00:05:39,094 --> 00:05:44,413
-another way to plot this data. Let me show
-you what I mean. Let me use a slightly
+00:02:09,540 --> 00:02:10,780
+So, rearranging the slide of
 
 67
-00:05:44,413 --> 00:05:49,206
-different set of symbols to plot this
-data. So if tumor size is going to be the
+00:02:10,860 --> 00:02:12,130
+it, here's our neural network
 
 68
-00:05:49,206 --> 00:05:54,303
-attribute that I'm going to use to predict
-malignancy or benignness, I can also draw
+00:02:12,540 --> 00:02:14,070
+with four output units and those
 
 69
-00:05:54,303 --> 00:05:58,975
-my data like this. I'm going to use
-different symbols to denote my benign and
+00:02:14,330 --> 00:02:15,510
+are what we want h
 
 70
-00:05:58,975 --> 00:06:03,707
-malignant, or my negative and positive
-examples. So instead of drawing crosses,
+00:02:15,670 --> 00:02:16,790
+of x to be when we
 
 71
-00:06:03,707 --> 00:06:11,595
-I'm now going to draw O's for the benign
-tumors. Like so. And I'm going to keep
+00:02:16,990 --> 00:02:18,930
+have the different images, and
 
 72
-00:06:11,595 --> 00:06:18,655
-using X's to denote my malignant tumors.
-Okay? I hope this is beginning to make
+00:02:19,580 --> 00:02:20,860
+the way we're going to represent the
 
 73
-00:06:18,655 --> 00:06:23,624
-sense. All I did was I took, you know,
-these, my data set on top and I just
+00:02:21,110 --> 00:02:22,690
+training set in these settings
 
 74
-00:06:23,624 --> 00:06:30,894
-mapped it down. To this real line like so.
-And started to use different symbols,
+00:02:23,260 --> 00:02:24,670
+is as follows. So, when we have
 
 75
-00:06:30,894 --> 00:06:35,828
-circles and crosses, to denote malignant
-versus benign examples. Now, in this
+00:02:24,890 --> 00:02:26,170
+a training set with different images
 
 76
-00:06:35,828 --> 00:06:41,091
-example we use only one feature or one
-attribute, mainly, the tumor size in order
+00:02:27,350 --> 00:02:28,990
+of pedestrians, cars, motorcycles and
 
 77
-00:06:41,091 --> 00:06:46,289
-to predict whether the tumor is malignant
-or benign. In other machine learning
+00:02:29,260 --> 00:02:30,450
+trucks, what we're going
 
 78
-00:06:46,289 --> 00:06:51,355
-problems when we have more than one
-feature, more than one attribute. Here's
+00:02:30,510 --> 00:02:31,940
+to do in this example is
 
 79
-00:06:51,355 --> 00:06:56,749
-an example. Let's say that instead of just
-knowing the tumor size, we know both the
+00:02:32,190 --> 00:02:34,580
+that whereas previously we had
 
 80
-00:06:56,749 --> 00:07:02,387
-age of the patients and the tumor size. In
-that case maybe your data set will look
+00:02:34,990 --> 00:02:36,780
+written out the labels as
 
 81
-00:07:02,387 --> 00:07:08,562
-like this where I may have a set of patients
-with those ages and that tumor size and
+00:02:37,040 --> 00:02:38,320
+y being an integer from
 
 82
-00:07:08,562 --> 00:07:14,980
-they look like this. And a different set
-of patients, they look a little different,
+00:02:38,710 --> 00:02:42,180
+1, 2, 3 or 4. Instead of
 
 83
-00:07:15,600 --> 00:07:23,968
-whose tumors turn out to be malignant, as
-denoted by the crosses. So, let's say you
+00:02:42,280 --> 00:02:44,210
+representing y this way,
 
 84
-00:07:23,968 --> 00:07:32,027
-have a friend who tragically has a
-tumor. And maybe, their tumor size and age
+00:02:44,890 --> 00:02:46,340
+we're going to instead represent y
 
 85
-00:07:32,027 --> 00:07:37,657
-falls around there. So given a data set
-like this, what the learning algorithm
+00:02:47,050 --> 00:02:49,400
+as follows: namely Yi
 
 86
-00:07:37,657 --> 00:07:42,462
-might do is throw the straight line
-through the data to try to separate out
+00:02:54,850 --> 00:02:55,230
+will be either 1, 0, 0, 0
 
 87
-00:07:42,462 --> 00:07:47,710
-the malignant tumors from the benign ones
-and, so the learning algorithm may decide
+00:02:55,230 --> 00:02:57,040
+or 0, 1, 0, 0 or 0, 0, 1, 0 or 0, 0, 0, 1 depending on what the
 
 88
-00:07:47,710 --> 00:07:53,004
-to throw the straight line like that to
-separate out the two classes of tumors.
+00:02:57,490 --> 00:02:59,100
+corresponding image Xi is.
 
 89
-00:07:53,004 --> 00:07:57,644
-And. You know, with this, hopefully you
-can decide that your friend's tumor is
+00:02:59,410 --> 00:03:00,700
+And so one training example
 
 90
-00:07:57,644 --> 00:08:02,322
-more likely to if it's over there,
-that hopefully your learning algorithm
+00:03:01,230 --> 00:03:03,090
+will be one pair Xi colon Yi
 
 91
-00:08:02,322 --> 00:08:07,305
-will say that your friend's tumor falls on
-this benign side and is therefore more
+00:03:04,530 --> 00:03:06,340
+where Xi is an image with, you
 
 92
-00:08:07,305 --> 00:08:12,044
-likely to be benign than malignant. In
-this example we had two features, namely,
+00:03:06,440 --> 00:03:08,000
+know one of the four objects and
 
 93
-00:08:12,044 --> 00:08:17,147
-the age of the patient and the size of the
-tumor. In other machine learning problems
+00:03:08,170 --> 00:03:09,640
+Yi will be one of these vectors.
 
 94
-00:08:17,147 --> 00:08:21,454
-we will often have more features, and my
-friends that work on this problem, they
+00:03:10,970 --> 00:03:12,020
+And hopefully, we can find
 
 95
-00:08:21,454 --> 00:08:25,849
-actually use other features like these,
-which is clump thickness, the clump thickness of
+00:03:12,420 --> 00:03:13,670
+a way to get our
 
 96
-00:08:25,849 --> 00:08:30,299
-the breast tumor. Uniformity of cell size
-of the tumor. Uniformity of cell shape of
+00:03:14,020 --> 00:03:15,100
+Neural Networks to output some
 
 97
-00:08:30,299 --> 00:08:34,911
-the tumor, and so on, and other features
-as well. And it turns out one of the interes-,
+00:03:15,290 --> 00:03:16,480
+value. So, the h of x
 
 98
-00:08:34,911 --> 00:08:39,907
-most interesting learning algorithms that
-we'll see in this class is a learning
+00:03:17,310 --> 00:03:20,360
+is approximately y and
 
 99
-00:08:39,907 --> 00:08:45,153
-algorithm that can deal with, not just two
-or three or five features, but an infinite
+00:03:20,550 --> 00:03:22,000
+both h of x and Yi,
 
 100
-00:08:45,153 --> 00:08:50,150
-number of features. On this slide, I've
-listed a total of five different features.
+00:03:22,600 --> 00:03:23,770
+both of these are going
 
 101
-00:08:50,150 --> 00:08:54,482
-Right, two on the axes and three more up here.
-But it turns out that for some learning
+00:03:24,020 --> 00:03:25,170
+to be in our example,
 
 102
-00:08:54,482 --> 00:08:58,497
-problems, what you really want is not to
-use, like, three or five features. But
+00:03:26,060 --> 00:03:28,700
+four dimensional vectors when we have four classes.
 
 103
-00:08:58,497 --> 00:09:02,566
-instead, you want to use an infinite
-number of features, an infinite number of
+00:03:31,810 --> 00:03:33,020
+So, that's how you
 
 104
-00:09:02,566 --> 00:09:06,211
-attributes, so that your learning
-algorithm has lots of attributes or
+00:03:33,170 --> 00:03:34,830
+get neural network to do multiclass classification.
 
 105
-00:09:06,211 --> 00:09:10,333
-features or cues with which to make those
-predictions. So how do you deal with an
+00:03:36,290 --> 00:03:37,780
+This wraps up our discussion on
 
 106
-00:09:10,333 --> 00:09:14,439
-infinite number of features. How do you even
-store an infinite number of
+00:03:38,050 --> 00:03:39,620
+how to represent Neural Networks
 
 107
-00:09:14,439 --> 00:09:18,290
-things on the computer when your
-computer is gonna run out of memory. It
+00:03:40,120 --> 00:03:41,620
+that is on our hypotheses representation.
 
 108
-00:09:18,290 --> 00:09:22,188
-turns out that when we talk about an
-algorithm called the Support Vector
+00:03:42,780 --> 00:03:44,180
+In the next set of videos, let's
 
 109
-00:09:22,188 --> 00:09:26,675
-Machine, there will be a neat mathematical
-trick that will allow a computer to deal
+00:03:44,690 --> 00:03:45,830
+start to talk about how take
 
 110
-00:09:26,675 --> 00:09:31,214
-with an infinite number of features. Imagine
-that I didn't just write down two features
+00:03:45,990 --> 00:03:47,360
+a training set and how to
 
 111
-00:09:31,214 --> 00:09:35,487
-here and three features on the right. But, imagine that
-I wrote down an infinitely long list, I
-
-112
-00:09:35,487 --> 00:09:39,866
-just kept writing more and more and more
-features. Like an infinitely long list of
-
-113
-00:09:39,866 --> 00:09:44,192
-features. Turns out, we'll be able to come
-up with an algorithm that can deal with
-
-114
-00:09:44,192 --> 00:09:49,701
-that. So, just to recap. In this
-class we'll talk about supervised
-
-115
-00:09:49,701 --> 00:09:54,167
-learning. And the idea is that, in
-supervised learning, in every example in
-
-116
-00:09:54,167 --> 00:09:58,880
-our data set, we are told what is the
-"correct answer" that we would have
-
-117
-00:09:58,880 --> 00:10:03,960
-quite liked the algorithms have predicted
-on that example. Such as the price of the
-
-118
-00:10:03,960 --> 00:10:08,428
-house, or whether a tumor is malignant or
-benign. We also talked about the
-
-119
-00:10:08,428 --> 00:10:13,202
-regression problem. And by regression,
-that means that our goal is to predict a
-
-120
-00:10:13,202 --> 00:10:17,977
-continuous valued output. And we talked
-about the classification problem, where
-
-121
-00:10:17,977 --> 00:10:22,690
-the goal is to predict a discrete value
-output. Just a quick wrap up question:
-
-122
-00:10:22,690 --> 00:10:27,541
-Suppose you're running a company and you
-want to develop learning algorithms to
-
-123
-00:10:27,541 --> 00:10:32,618
-address each of two problems. In the first
-problem, you have a large inventory of
-
-124
-00:10:32,618 --> 00:10:38,113
-identical items. So imagine that you have
-thousands of copies of some identical
-
-125
-00:10:38,113 --> 00:10:43,607
-items to sell and you want to predict how
-many of these items you sell within the
-
-126
-00:10:43,607 --> 00:10:49,172
-next three months. In the second problem,
-problem two, you'd like--  you have lots of
-
-127
-00:10:49,172 --> 00:10:54,145
-users and you want to write software to
-examine each individual of your
-
-128
-00:10:54,145 --> 00:10:59,193
-customer's accounts, so each one of your
-customer's accounts; and for each account,
-
-129
-00:10:59,193 --> 00:11:04,178
-decide whether or not the account has been
-hacked or compromised. So, for each of
-
-130
-00:11:04,178 --> 00:11:08,914
-these problems, should they be treated as
-a classification problem, or as a
-
-131
-00:11:08,914 --> 00:11:14,087
-regression problem? When the video pauses,
-please use your mouse to select whichever
-
-132
-00:11:14,087 --> 00:11:20,884
-of these four options on the left you
-think is the correct answer. So hopefully,
-
-133
-00:11:20,884 --> 00:11:25,871
-you got that this is the answer. For
-problem one, I would treat this as a
-
-134
-00:11:25,871 --> 00:11:31,058
-regression problem, because if I have, you
-know, thousands of items, well, I would
-
-135
-00:11:31,058 --> 00:11:36,071
-probably just treat this as a real value,
-as a continuous value. And
-
-136
-00:11:36,290 --> 00:11:41,837
-treat, therefore, the number of items I sell,
-as a continuous value. And for the
-
-137
-00:11:41,837 --> 00:11:47,748
-second problem, I would treat that as a
-classification problem, because I might
-
-138
-00:11:47,748 --> 00:11:53,659
-say, set the value I want to predict with
-zero, to denote the account has not been
-
-139
-00:11:53,659 --> 00:11:58,850
-hacked. And set the value one to denote an
-account that has been hacked into. So just
-
-140
-00:11:58,850 --> 00:12:03,287
-like, you know, breast cancer, is,
-zero is benign, one is malignant. So I
-
-141
-00:12:03,287 --> 00:12:08,150
-might set this be zero or one depending on
-whether it's been hacked, and have an
-
-142
-00:12:08,150 --> 00:12:13,134
-algorithm try to predict each one of these
-two discrete values. And because there's a
-
-143
-00:12:13,134 --> 00:12:17,693
-small number of discrete values, I would
-therefore treat it as a classification
-
-144
-00:12:17,693 --> 00:12:23,075
-problem. So, that's it for supervised
-learning and in the next video I'll talk
-
-145
-00:12:23,075 --> 00:12:28,325
-about unsupervised learning, which is the
-other major category of learning algorithms.
+00:03:47,570 --> 00:03:49,970
+automatically learn the parameters of the neural network.

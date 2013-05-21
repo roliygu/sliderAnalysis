@@ -1,7 +1,11 @@
 text1 = open('D:\Git\sliderAnalysis\oldoutput.txt')
 list3=text1.read().split('  ')
-so = set(list3)
+oldput = set(list3)
 text1.close()
+text2 = open('D:\Git\sliderAnalysis\output.txt')
+Loutput=text2.read().split('  ')
+output=set(Loutput)
+text2.close()
 
 text = open('D:\Git\sliderAnalysis\input.txt','r')
 list1 = text.readlines()
@@ -37,14 +41,23 @@ for i in list2:
         
 text.close()
         
-s1 = set(list4)
-s3 = s1 - so
-out = open('D:\Git\sliderAnalysis\output1.txt','w')
-for i in s3:
+input = set(list4)
+output = input - oldput
+#output2 = output1 - output上下文修改了代码，这里还没改
+out = open('D:\Git\sliderAnalysis\output.txt','w')
+for i in output:
     out.write(i)
     out.write("  ")
 
-out.close()     
+out.close()    
+
+out2 = open('D:\Git\sliderAnalysis\output2.txt','w')
+for i in output2:
+    out2.write(i)
+    out2.write("  ")
+ 
+out2.close() 
+ 
    
 
 
